@@ -1,0 +1,34 @@
+rules_version = '2';
+// Paste this into Firebase console → Firestore Database → Rules, then click Publish.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() { return request.auth != null; }
+    function isMe(uid)  { return signedIn() && request.auth.uid == uid; }
+
+    // Each user can only read and write their own profile and alerts.
+    match /users/{uid} {
+      allow read, delete: if isMe(uid);
+      allow create, update: if isMe(uid)
+        && request.resource.data.name is string
+        && request.resource.data.name.size() > 0
+        && request.resource.data.deviceId is string
+        && request.resource.data.deviceId.matches('ALRT-[0-9]{3,}');
+
+      match /alerts/{alertId} {
+        allow read, write: if isMe(uid);
+      }
+    }
+
+    // One pendant = one account. A device can be claimed once and only its owner can change it.
+    match /devices/{deviceId} {
+      allow read: if signedIn();
+      allow create: if signedIn()
+        && deviceId.matches('ALRT-[0-9]{3,}')
+        && request.resource.data.owner == request.auth.uid;
+      allow update: if signedIn() && resource.data.owner == request.auth.uid
+        && request.resource.data.owner == request.auth.uid;
+      allow delete: if signedIn() && resource.data.owner == request.auth.uid;
+    }
+  }
+}

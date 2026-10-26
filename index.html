@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0a0a0a">
+  <meta name="description" content="Alerta – your smart safety companion with real-time monitoring, emergency alerts and fall detection.">
+  <title>Alerta - Smart Safety System</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@500&display=swap">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div class="splash" id="splash"><span>Loading…</span></div>
+  <main id="auth" hidden>
+    <div class="brand">
+      <div class="logo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg></div>
+      <h1>Alerta</h1>
+      <p>Smart Safety System</p>
+    </div>
+
+    <!-- Step 1: sign in / sign up -->
+    <form class="card" id="formPanel" novalidate>
+      <h2 id="authTitle">Welcome back</h2>
+      <p class="sub" id="authSub">Sign in to access your safety dashboard</p>
+
+      <button type="button" class="google" id="googleBtn">
+        <svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg>
+        <span id="googleTxt">Continue with Google</span>
+      </button>
+      <div class="or"><span>or use your phone</span></div>
+
+      <div class="field" id="nameField" hidden>
+        <label for="fName">Your Name</label>
+        <div class="inwrap"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="7" r="4"/><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/></svg><input id="fName" autocomplete="name" placeholder="Demo User"></div>
+      </div>
+      <div class="field">
+        <label for="fPhone">Phone Number</label>
+        <div class="inwrap"><svg class="i" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg><input id="fPhone" type="tel" autocomplete="tel" placeholder="+91 9876543210"></div>
+      </div>
+      <div class="field" id="deviceField" hidden>
+        <label for="fDevice">Device ID</label>
+        <div class="inwrap"><svg class="i" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M15 2v2M15 20v2M2 15h2M2 9h2M20 15h2M20 9h2M9 2v2M9 20v2"/></svg><input id="fDevice" autocomplete="off" placeholder="ALRT-001"></div>
+        <span class="hint">Printed on the back of your pendant</span>
+      </div>
+
+      <div class="err" id="formErr" role="alert"></div>
+      <button class="primary" id="sendBtn" type="submit"><span>Send OTP</span><svg class="i" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+      <div class="switch"><span id="swTxt">Need an account?</span> <button type="button" id="swBtn">Sign up</button></div>
+    </form>
+
+    <!-- Step 2: OTP -->
+    <form class="card" id="otpPanel" novalidate hidden>
+      <h2>Enter verification code</h2>
+      <p class="sub">We sent a 6-digit code to <b id="otpTo"></b></p>
+      <div class="field">
+        <label for="fOtp">Code</label>
+        <input class="otp" id="fOtp" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="••••••">
+      </div>
+      <div class="err" id="otpErr" role="alert"></div>
+      <button class="primary" id="verifyBtn" type="submit"><span>Verify &amp; Continue</span></button>
+      <div class="switch"><button type="button" id="otpBack">Change number</button> · <button type="button" id="otpResend" disabled>Resend code</button></div>
+    </form>
+
+    <!-- Step 3: finish profile (new users, Google sign-ins) -->
+    <form class="card" id="profilePanel" novalidate hidden>
+      <h2>Register your pendant</h2>
+      <p class="sub">One last step to set up your safety dashboard</p>
+      <div class="field">
+        <label for="pName">Your Name</label>
+        <div class="inwrap"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="7" r="4"/><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/></svg><input id="pName" autocomplete="name" placeholder="Demo User"></div>
+      </div>
+      <div class="field" id="pPhoneField">
+        <label for="pPhone">Phone Number</label>
+        <div class="inwrap"><svg class="i" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg><input id="pPhone" type="tel" autocomplete="tel" placeholder="+91 9876543210"></div>
+        <span class="hint">Guardians use this number to reach you</span>
+      </div>
+      <div class="field">
+        <label for="pDevice">Device ID</label>
+        <div class="inwrap"><svg class="i" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M15 2v2M15 20v2M2 15h2M2 9h2M20 15h2M20 9h2M9 2v2M9 20v2"/></svg><input id="pDevice" autocomplete="off" placeholder="ALRT-001"></div>
+      </div>
+      <div class="err" id="profileErr" role="alert"></div>
+      <button class="primary" id="profileBtn" type="submit"><span>Finish Setup</span><svg class="i" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+      <div class="switch"><button type="button" id="profileOut">Use a different account</button></div>
+    </form>
+
+    <div id="recaptcha"></div>
+    <p class="foot">Your safety is our priority. All data is encrypted and secure.</p>
+  </main>
+
+
+<!-- ============ APP ============ -->
+<div id="app" hidden>
+  <header class="top"><div class="wrap">
+    <button class="back" id="backBtn" aria-label="Back to home" hidden><svg class="i" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
+    <div class="ttl"><h1 id="vTitle">Hello</h1><p id="vSub">Your safety dashboard</p></div>
+    <span class="pill" id="statusPill"></span>
+  </div></header>
+
+  <div class="wrap">
+    <!-- HOME -->
+    <section class="view" data-view="home">
+      <div class="panel sos-panel">
+        <button class="sos" id="sosBtn" aria-label="SOS. Press and hold for 1.5 seconds to send an emergency alert">SOS<svg class="ring" viewBox="0 0 160 160"><circle cx="80" cy="80" r="74"/></svg></button>
+        <span class="sos-note" id="sosNote">Press and hold for emergency</span>
+        <div class="sos-active" id="sosActive">
+          <div><strong>SOS alert active</strong><span id="sosActiveTxt"></span></div>
+          <button class="ghost" id="safeBtn">I'm safe</button>
+        </div>
+        <div class="voice-count" id="voiceCount" hidden role="alert">
+          <div class="num" id="voiceNum">5</div>
+          <div class="t"><strong>Voice SOS in <span id="voiceSec">5</span> seconds</strong><span id="voiceHeard"></span></div>
+          <button class="ghost" id="voiceCancel">Cancel</button>
+        </div>
+        <div class="voice-live" id="voiceLive" hidden><span class="dotlive"></span><span id="voiceLiveTxt">Listening for "help"…</span></div>
+      </div>
+      <div class="grid3">
+        <button class="tile" id="tFall" aria-pressed="true"><span class="c-amber" data-ic="activity"></span>Fall Detect<span class="s"></span></button>
+        <button class="tile" id="tVoice" aria-pressed="false"><span class="c-green" data-ic="mic"></span>Voice Mode<span class="s"></span></button>
+        <button class="tile" id="tAlarm" aria-pressed="false"><span class="c-red" data-ic="volume"></span>Loud Alarm<span class="s"></span></button>
+      </div>
+      <div class="panel">
+        <button class="map mini" data-go="tracking" aria-label="Open live tracking"><div class="pin plain"><div class="dot" data-ic="pin"></div></div></button>
+        <div class="maprow"><span data-ic="nav"></span>Live Location<span class="sp"></span><small>Tap to expand</small></div>
+      </div>
+      <div class="panel">
+        <div class="panel-h">Device Status</div>
+        <div class="panel-b"><div class="grid3">
+          <div class="stat"><span data-ic="bt"></span>Bluetooth<b>Connected</b></div>
+          <div class="stat"><span data-ic="wifi"></span>Internet<b>Active</b></div>
+          <div class="stat"><span data-ic="phoneDev"></span><span id="devLbl">Device</span><b>Online</b></div>
+        </div></div>
+      </div>
+      <div class="grid2">
+        <button class="tile" data-go="tracking"><span class="c-green" data-ic="nav"></span>Safe Route<span class="s">Find safest path</span></button>
+        <button class="tile" data-go="guardian"><span data-ic="users"></span>Guardian Mode<span class="s">Track loved ones</span></button>
+      </div>
+      <div class="panel">
+  <div class="panel-h">Live Sensor Monitoring</div>
+
+  <div class="panel-b">
+    <div class="grid3">
+
+      <div class="stat">
+        Movement
+        <b id="sensorMovement">-- g</b>
+      </div>
+
+      <div class="stat">
+        Heart Rate
+        <b id="sensorHeartRate">-- BPM</b>
+      </div>
+
+      <div class="stat">
+        Mic Level
+        <b id="sensorSound">--</b>
+      </div>
+
+    </div>
+
+    <p id="sensorUpdated">Waiting for device data...</p>
+  </div>
+</div>
+</section>
+
+    <!-- TRACKING -->
+    <section class="view" data-view="tracking" hidden>
+      <div class="panel" style="overflow:hidden"><div class="map big"><div class="pin" id="trackPin"><div class="dot" data-ic="pin"></div></div></div></div>
+      <div class="banner-g" id="shareBanner"><div class="ico" data-ic="share"></div><div><strong id="shareTitle">Live Location Sharing Active</strong><span id="shareSub">Your guardians can see your location</span></div></div>
+      <div class="panel panel-b coord">
+        <div><small>Latitude</small><b id="lat">12.973517</b></div>
+        <div><small>Longitude</small><b id="lng">77.594135</b></div>
+      </div>
+      <div class="btnrow">
+        <button class="wide" id="pauseBtn"><span data-ic="pause" id="pauseIc"></span><span id="pauseTxt">Pause</span></button>
+        <button class="sq" id="recenter" aria-label="Recenter map"><span data-ic="cross"></span></button>
+      </div>
+      <p class="modechip" id="gpsNote">Finding your location…</p>
+    </section>
+
+    <!-- GUARDIAN -->
+    <section class="view" data-view="guardian" hidden>
+      <div class="gcard">
+        <div class="av" id="gAv">D</div>
+        <div class="who"><strong id="gName">Demo User</strong><span id="gPhone"></span>
+          <div class="meta"><b><span data-ic="batt"></span>72%</b><b class="c-green"><span data-ic="wifi"></span>Connected</b></div>
+        </div>
+        <div class="upd">Last updated<b id="gTime">--</b></div>
+      </div>
+      <div class="panel" style="overflow:hidden">
+        <div class="map guard"><div class="pin g" id="gPin"><div class="dot" id="gPinTxt">D</div></div></div>
+        <div class="locbar"><span class="c-green" data-ic="pin"></span><div class="t"><small>Current Location</small><b id="gLoc">--</b></div><span class="livechip"><span data-ic="activity"></span>Live</span></div>
+      </div>
+      <div class="actions">
+        <a class="lead" id="gCall" href="#"><span data-ic="phone"></span>Call</a>
+        <a id="gMsg" href="#"><span data-ic="msg"></span>Message</a>
+        <a id="gNav" href="https://www.google.com/maps" target="_blank" rel="noopener"><span data-ic="nav"></span>Navigate</a>
+      </div>
+    </section>
+
+    <!-- SETTINGS -->
+    <section class="view" data-view="settings" hidden>
+      <div class="panel">
+        <div class="panel-h"><span data-ic="user"></span>Profile</div>
+        <div class="panel-b"><div class="prof"><div class="ph" data-ic="user"></div><div><strong id="setName"></strong><span><span data-ic="phone"></span><span id="setPhone"></span></span></div></div></div>
+      </div>
+      <div class="panel">
+        <div class="panel-h"><span data-ic="users"></span>Emergency Contacts<span class="sp"></span><button class="textbtn" id="addContact"><span data-ic="plus"></span>Add</button></div>
+        <div class="panel-b"><div id="contacts"></div><button class="savebtn" id="saveContacts"><span data-ic="save"></span>Save Contacts</button></div>
+      </div>
+      <div class="panel">
+        <div class="panel-h"><span data-ic="shield"></span>Safety Settings</div>
+        <div class="panel-b"><div class="setrow"><span data-ic="activity"></span><div class="t"><strong>Auto Fall Detection</strong><span>Automatically detect falls and trigger SOS</span></div><button class="tog" id="autoFall" role="switch" aria-checked="true" aria-label="Auto fall detection"></button></div></div>
+      </div>
+      <div class="panel">
+        <div class="panel-h"><span data-ic="msg"></span>SOS Message</div>
+        <div class="panel-b"><label class="lbl" for="sosMsg">Custom emergency message</label><textarea id="sosMsg"></textarea><button class="savebtn" id="saveMsg"><span data-ic="save"></span>Save Message</button></div>
+      </div>
+      <button class="signout" id="signOut"><span data-ic="logout"></span>Sign Out</button>
+      <p class="modechip" id="modeNote"></p>
+    </section>
+
+    <!-- ALERTS -->
+    <section class="view" data-view="alerts" hidden>
+      <div class="confirm" id="clearConfirm"><span>Delete all alerts? This can't be undone.</span><button class="ghost" id="clearNo">Cancel</button><button class="ghost yes" id="clearYes">Delete</button></div>
+      <div id="alertList"></div>
+    </section>
+  </div>
+
+  <nav class="nav" aria-label="Main"><div class="in">
+    <button data-go="settings"><span data-ic="cog"></span>Settings</button>
+    <button data-go="home"><span data-ic="home"></span>Home</button>
+    <button data-go="tracking"><span data-ic="pin"></span>Tracking</button>
+    <button data-go="guardian"><span data-ic="users"></span>Guardian</button>
+    <button data-go="alerts"><span data-ic="bell"></span>Alerts<span class="badge" id="badge" hidden>0</span></button>
+  </div></nav>
+</div>
+<dialog class="fall-dialog" id="fallDialog" aria-labelledby="fallTitle" aria-describedby="fallMessage">
+  <div class="fall-dialog-content">
+    <div class="fall-alert-icon" aria-hidden="true">!</div>
+    <h2 id="fallTitle">Distress Situation Detected</h2>
+    <p id="fallMessage">Emergency SOS in <strong id="fallCountdown">5</strong> seconds…</p>
+    <button class="fall-cancel" id="cancelFallSos" type="button">Cancel SOS</button>
+  </div>
+</dialog>
+<div class="toast" id="toast" role="status"></div>
+
+  <script type="module" src="js/main.js"></script>
+<script src="js/sensor.js"></script>
+</body>
+</html>
